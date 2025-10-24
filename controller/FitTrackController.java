@@ -4,8 +4,9 @@ import java.awt.event.*;
 import java.util.*;
 
 public class FitTrackController {
-    private JFrame frame;
-    private CardLayout cardLayout = new CardLayout();
+    private JFrame frame;  //main panel
+    private CardLayout cardLayout = new CardLayout();   //2 panels sides
+    
     private JPanel mainPanel = new JPanel(cardLayout);
 
     private Map<String, Account> accounts = new HashMap<>();
@@ -200,3 +201,4 @@ public class FitTrackController {
         SwingUtilities.invokeLater(() -> new FitTrackController());
     }
 }
+
