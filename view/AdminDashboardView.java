@@ -1,36 +1,60 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class AdminDashboardView extends JPanel {
-    DefaultListModel<String> userListModel = new DefaultListModel<>();
-    JList<String> userList = new JList<>(userListModel);
-    JTextField addUserField = new JTextField(10);
-    JPasswordField addUserPass = new JPasswordField(10);
-    JTextField addUserWeight = new JTextField(5);
-    JButton addUserButton = new JButton("Add User");
-    JButton deleteUserButton = new JButton("Delete User");
-    JButton logoutButton = new JButton("Logout");
+public class AdminView extends JPanel {
+    private final DefaultListModel<String> userListModel;
+    private final JList<String> userList;
+    private final JButton refreshButton;
+    private final JButton viewStatsButton;
+    private final JButton logoutButton;
+    private final JLabel statsLabel;
 
-    public AdminDashboardView() {
-        setLayout(new BorderLayout());
+    public AdminView() {
+        setLayout(new BorderLayout(10, 10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Username:"));
-        topPanel.add(addUserField);
-        topPanel.add(new JLabel("Password:"));
-        topPanel.add(addUserPass);
-        topPanel.add(new JLabel("Weight(kg):"));
-        topPanel.add(addUserWeight);
-        topPanel.add(addUserButton);
-        topPanel.add(deleteUserButton);
+        // Initialize components
+        userListModel = new DefaultListModel<>();
+        userList = new JList<>(userListModel);
+        refreshButton = new JButton("Refresh Users");
+        viewStatsButton = new JButton("View User Stats");
+        logoutButton = new JButton("Logout");
+        statsLabel = new JLabel("Statistics will appear here", SwingConstants.CENTER);
 
-        add(topPanel, BorderLayout.NORTH);
-        add(new JScrollPane(userList), BorderLayout.CENTER);
+        // Style components
+        userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        statsLabel.setBorder(BorderFactory.createTitledBorder("Workout Statistics"));
+        statsLabel.setVerticalAlignment(SwingConstants.TOP);
 
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.add(logoutButton);
-        add(bottomPanel, BorderLayout.SOUTH);
+        // Create button panel
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(refreshButton);
+        buttonPanel.add(viewStatsButton);
+        buttonPanel.add(logoutButton);
+
+        // Create main panel with proper layout
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBorder(BorderFactory.createTitledBorder("Users"));
+        centerPanel.add(new JScrollPane(userList), BorderLayout.CENTER);
+
+        // Add components to main panel
+        add(buttonPanel, BorderLayout.NORTH);
+        add(centerPanel, BorderLayout.CENTER);
+        add(statsLabel, BorderLayout.SOUTH);
     }
 
-    // Accessor methods as needed
+    // Getters
+    public DefaultListModel<String> getUserListModel() { return userListModel; }
+    public JList<String> getUserList() { return userList; }
+    public JButton getRefreshButton() { return refreshButton; }
+    public JButton getViewStatsButton() { return viewStatsButton; }
+    public JButton getLogoutButton() { return logoutButton; }
+    public JLabel getStatsLabel() { return statsLabel; }
+
+    // Utility method to update stats
+    public void updateStats(String statsText) {
+        statsLabel.setText("<html>" + statsText + "</html>");
+    }
 }
